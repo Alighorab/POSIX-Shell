@@ -17,6 +17,7 @@
 ## How to use it?
 - Open your terminal and run the following:
     - `git clone <this repo>`
+    - `cd Tiny-Shell`
     - `make`
     - `./tsh`
 - The following commands are supported:
