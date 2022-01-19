@@ -16,7 +16,7 @@
 
 ## How to use it?
 - Open your terminal and run the following:
-    - `git clone <this repo>`
+    - `git clone https://github.com/Alighorab/Tiny-Shell.git`
     - `cd Tiny-Shell`
     - `make`
     - `./tsh`
