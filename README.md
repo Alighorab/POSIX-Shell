@@ -3,7 +3,7 @@
 
 ## Description
 
-- This project is a tiny UNIX shell supports only job control.
+- A tiny UNIX shell supports only job control.
 - It's the 5th lab of [15-213: Introduction to Computer Systems.](https://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15213-f15/www/schedule.html)
 - Main routine is very simple, It (1): **prints** a prompt, (2): **reads** the command-line, (3): **evaluate** it.
 - Evaluation routine is also very simple, It: 
