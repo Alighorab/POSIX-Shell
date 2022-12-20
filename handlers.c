@@ -1,19 +1,18 @@
 #include "handlers.h"
 
-
 /*****************
  * Signal handlers
  *****************/
 
-
-/* 
+/*
  * sigchld_handler - The kernel sends a SIGCHLD to the shell whenever
  *     a child job terminates (becomes a zombie), or stops because it
  *     received a SIGSTOP or SIGTSTP signal. The handler reaps all
  *     available zombie children, but doesn't wait for any other
- *     currently running children to terminate.  
+ *     currently running children to terminate.
  */
-void sigchld_handler(int sig) 
+void
+sigchld_handler(int sig)
 {
     int olderrno = errno;
     sigset_t mask_all, prev_mask;
@@ -26,17 +25,15 @@ void sigchld_handler(int sig)
 
         if (WIFEXITED(status)) {
             deletejob(jobs, pid);
-        }
-        else if (WIFSIGNALED(status)) {
-            printf("Job [%d] (%d) terminated by signal %d\n", 
-                    pid2jid(pid), pid, WTERMSIG(status)); 
+        } else if (WIFSIGNALED(status)) {
+            printf("Job [%d] (%d) terminated by signal %d\n", pid2jid(pid), pid,
+                   WTERMSIG(status));
             deletejob(jobs, pid);
-        }
-        else if (WIFSTOPPED(status)) {
-            struct job_t* job = getjobpid(jobs, pid);
-            job->state = ST; 
-            printf("Job [%d] (%d) stopped by signal %d\n", 
-                    pid2jid(pid), pid, WSTOPSIG(status)); 
+        } else if (WIFSTOPPED(status)) {
+            struct job_t *job = getjobpid(jobs, pid);
+            job->state = ST;
+            printf("Job [%d] (%d) stopped by signal %d\n", pid2jid(pid), pid,
+                   WSTOPSIG(status));
         }
 
         sigprocmask(SIG_SETMASK, &prev_mask, NULL);
@@ -45,12 +42,13 @@ void sigchld_handler(int sig)
     errno = olderrno;
 }
 
-/* 
+/*
  * sigint_handler - The kernel sends a SIGINT to the shell whenver the
  *    user types ctrl-c at the keyboard.  Catch it and send it along
- *    to the foreground job.  
+ *    to the foreground job.
  */
-void sigint_handler(int sig) 
+void
+sigint_handler(int sig)
 {
     int olderrno = errno;
     pid_t pid;
@@ -68,9 +66,10 @@ void sigint_handler(int sig)
 /*
  * sigtstp_handler - The kernel sends a SIGTSTP to the shell whenever
  *     the user types ctrl-z at the keyboard. Catch it and suspend the
- *     foreground job by sending it a SIGTSTP.  
+ *     foreground job by sending it a SIGTSTP.
  */
-void sigtstp_handler(int sig) 
+void
+sigtstp_handler(int sig)
 {
     int olderrno = errno;
     pid_t pid;
@@ -85,12 +84,12 @@ void sigtstp_handler(int sig)
     errno = olderrno;
 }
 
-
 /*
  * sigquit_handler - The driver program can gracefully terminate the
  *    child shell by sending it a SIGQUIT signal.
  */
-void sigquit_handler(int sig) 
+void
+sigquit_handler(int sig)
 {
     printf("Terminating after receipt of SIGQUIT signal\n");
     exit(1);
@@ -99,4 +98,3 @@ void sigquit_handler(int sig)
 /*********************
  * End signal handlers
  *********************/
-
